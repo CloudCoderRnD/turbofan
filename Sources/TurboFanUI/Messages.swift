@@ -50,7 +50,7 @@ struct Feed: Codable { var messages: [FeedMessage] }
 public final class MessageCenter: ObservableObject {
     public static let shared = MessageCenter()
 
-    public static let defaultFeed = URL(string: "https://cloud-coder.com/turbofan/messages.json")!
+    public static let defaultFeed = URL(string: "https://turbo.cloud-coder.com/messages.json")!
     static let enabledKey = "messagesEnabled"
 
     @Published public private(set) var messages: [FeedMessage] = []

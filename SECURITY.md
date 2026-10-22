@@ -41,7 +41,7 @@ it using Low Power Mode.
 ## Network use
 
 TurboFan makes one kind of request: every 6 hours it reads the CloudCoder message feed
-(`https://cloud-coder.com/turbofan/messages.json`) for update notices and news. The request carries
+(`https://turbo.cloud-coder.com/messages.json`) for update notices and news. The request carries
 only the app version and edition (`?v=1.0.1&edition=free`); no device ID, account, or readings.
 Turn it off in the About window ("Show news and update messages from CloudCoder").
 

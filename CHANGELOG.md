@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 — unreleased
+
+- Messages now come from turbo.cloud-coder.com; "Get Pro" opens the CloudCoder Store.
+
 ## 1.0.1 — 2026-10-22
 
 - **Fix:** the root helper could spin at high CPU and memory after it stopped sampling CPU power

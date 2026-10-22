@@ -166,8 +166,8 @@ Fans return to macOS control and turbo goes back on. Low Power Mode is left as i
 | Source code | Open source (GPL-3.0), this repository | Commercial |
 | Extra features for power users and priority support | | ✓ |
 
-TurboFan Free is complete and stays free. TurboFan Pro is coming from CloudCoder; see
-[cloud-coder.com](https://cloud-coder.com).
+TurboFan Free is complete and stays free. TurboFan Pro is available from the
+[CloudCoder Store](https://store.cloud-coder.com/turbofan).
 
 ## Contributing
 

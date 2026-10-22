@@ -9,7 +9,7 @@ public enum Brand {
     public static let websiteLabel = "cloud-coder.com"
     public static let website = URL(string: "https://cloud-coder.com")!
     /// Where "Get Pro" sends people. Point at the TurboFan Pro page once it is live.
-    public static let proPage = URL(string: "https://cloud-coder.com")!
+    public static let proPage = URL(string: "https://store.cloud-coder.com/turbofan")!
     public static let source = URL(string: "https://github.com/CloudCoderRnD/turbofan")!
     public static let license = "GPL-3.0-or-later"
     public static var version: String {
