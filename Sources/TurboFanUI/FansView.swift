@@ -176,11 +176,8 @@ struct CurveEditor: View {
                     .symbolSize(70)
             }
             if let t = current {
-                RuleMark(x: .value("now", t))
+                RuleMark(x: .value("now", t)) // current temperature; the sensor picker shows the number
                     .foregroundStyle(.red.opacity(0.6))
-                    .annotation(position: .top, alignment: .leading) {
-                        Text("\(Int(t))°").font(.caption2).foregroundStyle(.red)
-                    }
             }
         }
         .chartXScale(domain: 30...100)

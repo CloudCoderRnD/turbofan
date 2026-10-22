@@ -14,6 +14,13 @@ public struct TurboFanMenuApp: App {
         MessageCenter.shared.start()
         // `TurboFan --snapshot out.png` renders the panel to a PNG and quits (for checking the UI).
         let args = CommandLine.arguments
+        if let i = args.firstIndex(of: "--shots"), i + 1 < args.count {
+            let dir = URL(fileURLWithPath: args[i + 1])
+            let shotModel = AppModel()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                MainActor.assumeIsolated { Screenshots.run(dir: dir, model: shotModel, light: args.contains("--light")) }
+            }
+        }
         if let i = args.firstIndex(of: "--snapshot"), i + 1 < args.count {
             let url = URL(fileURLWithPath: args[i + 1])
             let snapModel = AppModel()
@@ -146,7 +153,7 @@ struct PanelView: View {
             }
         }
         if model.thermal.throttled {
-            Label("macOS is throttling the CPU to \(model.thermal.speedLimit)% (heat)", systemImage: "thermometer.sun.fill")
+            Label("macOS is limiting the CPU to \(model.thermal.speedLimit)% speed (heat or power)", systemImage: "thermometer.sun.fill")
                 .font(.caption.bold())
                 .foregroundStyle(.red)
         }
