@@ -7,6 +7,7 @@ import TurboCore
 
 struct FansView: View {
     @EnvironmentObject var model: AppModel
+    @AppStorage("menuBarShowsFans") private var menuBarShowsFans = false
 
     /// Preset every fan currently follows, if they all match one.
     private var currentPreset: FanPreset? {
@@ -38,6 +39,8 @@ struct FansView: View {
                 FanCard(fan: fan)
                 Divider()
             }
+            Toggle("Show fan speed in the menu bar", isOn: $menuBarShowsFans)
+                .font(.caption)
             if !model.fanInfo.isEmpty {
                 Text("Quit other fan control apps while using this.").font(.caption2).foregroundStyle(.secondary)
             }
