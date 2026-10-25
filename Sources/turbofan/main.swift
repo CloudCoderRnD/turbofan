@@ -7,6 +7,7 @@ import TurboCore
 let usage = """
 usage: turbofan <command>
   status   show turbo state, backend, temperature, fans
+  version  show the TurboFan version
   on       enable Turbo Boost
   off      disable Turbo Boost
   watch    print temperature, fans and load every second
@@ -33,6 +34,8 @@ func printStatus() {
 
 let args = CommandLine.arguments.dropFirst()
 switch args.first {
+case "version", "--version", "-v":
+    print("turbofan \(TurboFanVersion.string)")
 case "status", nil:
     printStatus()
 case "on", "off":
