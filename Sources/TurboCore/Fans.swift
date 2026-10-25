@@ -201,6 +201,9 @@ public enum FanClient {
         defer { close(fd) }
         var timeout = timeval(tv_sec: 3, tv_usec: 0)
         setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, socklen_t(MemoryLayout<timeval>.size))
+        // If the daemon closes the connection (e.g. it rejected our uid), write must fail with EPIPE, not kill us
+        var noSigPipe: Int32 = 1
+        setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int32>.size))
         var addr = unixAddress(socketPath)
         let connected = withUnsafePointer(to: &addr) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { connect(fd, $0, socklen_t(MemoryLayout<sockaddr_un>.size)) }

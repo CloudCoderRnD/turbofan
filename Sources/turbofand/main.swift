@@ -255,6 +255,9 @@ acceptSource.setEventHandler {
     guard getpeereid(client, &uid, &gid) == 0, uid == 0 || uid == allowedUID else { return }
     var timeout = timeval(tv_sec: 2, tv_usec: 0)
     setsockopt(client, SOL_SOCKET, SO_RCVTIMEO, &timeout, socklen_t(MemoryLayout<timeval>.size))
+    // A client that disconnects before the reply must not kill the helper with SIGPIPE
+    var noSigPipe: Int32 = 1
+    setsockopt(client, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int32>.size))
     let response: FanResponse
     if let req = try? JSONDecoder().decode(FanRequest.self, from: readAll(client)) {
         response = handle(req)
