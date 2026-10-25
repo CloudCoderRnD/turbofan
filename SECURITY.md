@@ -40,10 +40,15 @@ it using Low Power Mode.
 
 ## Network use
 
-TurboFan makes one kind of request: every 6 hours it reads the CloudCoder message feed
-(`https://turbo.cloud-coder.com/messages.json`) for update notices and news. The request carries
-only the app version and edition (`?v=1.0.1&edition=free`); no device ID, account, or readings.
-Turn it off in the About window ("Show news and update messages from CloudCoder").
+TurboFan makes two kinds of request, both for in-app messages:
+
+- Every 6 hours it reads the CloudCoder message feed (`https://turbo.cloud-coder.com/messages.json`)
+  for update notices and news. The request carries only the app version and edition
+  (`?v=1.0.1&edition=free`); no device ID, account, or readings.
+- If a message has a banner image, the image is downloaded from the URL given in the feed, for the
+  message card and the macOS notification.
+
+Turn both off in the About window ("Show news and update messages from CloudCoder").
 
 TurboFan has no telemetry or analytics, and your readings and settings never leave your Mac.
 

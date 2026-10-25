@@ -118,21 +118,25 @@ turbofan status                     turbo state, backend, temperature, fans
 turbofan on | off                   switch Turbo Boost
 turbofan watch                      temperature, fans and load every second
 turbofan sensors                    all temperature sensors
-turbofan metrics                    CPU clock, package power, thermal limit
+turbofan metrics [--raw]            CPU clock, package power, thermal limit (--raw: powermetrics sample)
 turbofan fans                       fans and their modes
 turbofan fans auto                  all fans back to macOS
 turbofan fans preset quiet|balanced|cool|full|auto
 turbofan fan <n> auto | <rpm>       one fan (1-based)
 turbofan fan <n> sensor <KEY> <from> <to>
+turbofan smc [prefixes]             dump SMC keys (default: fans F and temperatures T)
 ```
 
 Example: `turbofan fan 1 sensor TCXC 50 85` runs fan 1 at minimum speed at 50 °C and full speed at 85 °C.
+
+`turbofan smc` is useful for Mac model reports: it lists every fan and temperature key with its type and value.
 
 ## How it works
 
 | Part | Path | Role |
 |---|---|---|
-| App | `Sources/TurboFanApp` | SwiftUI menu bar app: Turbo, Fans, Profiles, Sensors tabs. |
+| App | `Sources/TurboFanApp` | Entry point of the menu bar app. |
+| UI | `Sources/TurboFanUI` | SwiftUI menu bar UI: Turbo, Fans, Profiles, Sensors tabs, in-app messages, and the plug-in hook for other editions. |
 | Core | `Sources/TurboCore` | SMC reader/writer, sensors, fan types, turbo control, power and thermal readings. |
 | Helper | `Sources/turbofand` | Root LaunchDaemon. Owns fan writes (`F<n>Md`, `F<n>Tg`) and runs `powermetrics` on demand. Local socket, only root and the installing user may connect. |
 | CLI | `Sources/turbofan` | `turbofan` command. |
