@@ -123,6 +123,22 @@ public struct PowerMetrics: Codable, Equatable {
         self.packageWatts = packageWatts
         self.date = date
     }
+
+    /// Reads one `powermetrics --samplers cpu_power` sample. Fields it can't find stay nil.
+    public static func parse(_ text: String, date: Date = Date()) -> PowerMetrics {
+        func number(_ pattern: String, group: Int = 1) -> Double? {
+            guard let re = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]),
+                  let m = re.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)),
+                  let r = Range(m.range(at: group), in: text) else { return nil }
+            return Double(text[r])
+        }
+        // e.g. "System Average frequency as fraction of nominal: 72.10% (1730.31 Mhz)"
+        let freqPattern = #"average frequency as fraction of nominal:\s*([\d.]+)%\s*\(([\d.]+)\s*Mhz\)"#
+        // e.g. "Intel energy model derived package power (CPUs+GT+SA): 5.66W"
+        let watts = number(#"package power[^:\n]*:\s*([\d.]+)\s*W"#)
+        return PowerMetrics(cpuMHz: number(freqPattern, group: 2), nominalPercent: number(freqPattern),
+                            packageWatts: watts, date: date)
+    }
 }
 
 public struct FanRequest: Codable {

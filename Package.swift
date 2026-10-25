@@ -17,5 +17,6 @@ let package = Package(
         .executableTarget(name: "TurboFanApp", dependencies: ["TurboFanUI"]),
         .executableTarget(name: "turbofan", dependencies: ["TurboCore"]),
         .executableTarget(name: "turbofand", dependencies: ["TurboCore"]),
+        .testTarget(name: "TurboCoreTests", dependencies: ["TurboCore"]),
     ]
 )

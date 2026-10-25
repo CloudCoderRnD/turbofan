@@ -15,6 +15,7 @@ tiny kext.
 
 ```bash
 swift build                 # debug build of app, CLI and helper
+swift test                  # unit tests (fan curves, presets, powermetrics parser)
 ./scripts/build-app.sh      # release build: build/TurboFan.app, build/turbofan, build/turbofand, kext
 ./scripts/install.sh        # install on this Mac (asks for your password)
 ```
