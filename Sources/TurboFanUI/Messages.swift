@@ -31,6 +31,17 @@ public struct FeedMessage: Codable, Identifiable, Equatable {
     /// Also post a macOS notification.
     public var notify: Bool?
 
+    /// The feed comes from the network, so only follow https links and images from it.
+    /// Anything else (file:, custom app schemes, plain http) is dropped from the message.
+    var httpsOnly: FeedMessage {
+        var m = self
+        if !Self.isHTTPS(m.action?.url) { m.action = nil }
+        if !Self.isHTTPS(m.image) { m.image = nil }
+        return m
+    }
+
+    static func isHTTPS(_ url: URL?) -> Bool { url?.scheme?.lowercased() == "https" }
+
     var priority: Int {
         switch kind {
         case .alert: return 0
@@ -104,7 +115,7 @@ public final class MessageCenter: ObservableObject {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             let feed = try decoder.decode(Feed.self, from: data)
-            messages = feed.messages.filter(applies)
+            messages = feed.messages.filter(applies).map(\.httpsOnly)
             for m in messages where m.notify == true && !dismissed.contains(m.id) { await postNotification(m) }
         } catch {
             // Offline or no feed: keep what we had.
@@ -164,7 +175,8 @@ final class NotificationOpener: NSObject, UNUserNotificationCenterDelegate {
     static let shared = NotificationOpener()
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        if let s = response.notification.request.content.userInfo["url"] as? String, let url = URL(string: s), !s.isEmpty {
+        if let s = response.notification.request.content.userInfo["url"] as? String, let url = URL(string: s),
+           FeedMessage.isHTTPS(url) {
             await MainActor.run { _ = NSWorkspace.shared.open(url) }
         }
     }
