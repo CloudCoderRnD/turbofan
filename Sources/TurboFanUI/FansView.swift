@@ -78,8 +78,10 @@ struct FanCard: View {
             }
             ProgressView(value: min(1, max(0, (fan.actual - fan.min) / max(1, fan.max - fan.min))))
                 .tint(.teal)
+                .accessibilityLabel("\(fan.name) speed")
+                .accessibilityValue("\(Int(fan.actual)) rpm")
 
-            Picker("", selection: $kind) {
+            Picker("\(fan.name) mode", selection: $kind) {
                 ForEach(Kind.allCases, id: \.self) { Text($0.rawValue).tag($0) }
             }
             .pickerStyle(.segmented)
@@ -94,6 +96,8 @@ struct FanCard: View {
                     Slider(value: $rpm, in: fan.min...fan.max, step: 100) { editing in
                         if !editing { send() }
                     }
+                    .accessibilityLabel("\(fan.name) fixed speed")
+                    .accessibilityValue("\(Int(rpm)) rpm")
                     Text("\(Int(rpm))").monospacedDigit().frame(width: 44, alignment: .trailing)
                 }
             case .sensor:

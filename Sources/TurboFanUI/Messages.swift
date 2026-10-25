@@ -236,6 +236,7 @@ struct MessageCard: View {
                         .buttonStyle(.plain)
                         .foregroundStyle(.secondary)
                         .help("Dismiss")
+                        .accessibilityLabel("Dismiss")
                 }
                 Text(message.title).font(.headline)
                 Text(message.body).font(.caption).foregroundStyle(.secondary)

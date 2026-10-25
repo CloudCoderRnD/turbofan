@@ -69,7 +69,7 @@ struct ProfileTile: View {
                     Image(systemName: profile.symbol)
                     Text(profile.id).bold()
                     Spacer()
-                    if active { Image(systemName: "checkmark.circle.fill") }
+                    if active { Image(systemName: "checkmark.circle.fill").accessibilityLabel("Active") }
                 }
                 .frame(maxWidth: .infinity)
             }

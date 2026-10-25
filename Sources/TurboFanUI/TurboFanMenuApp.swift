@@ -105,14 +105,14 @@ struct PanelView: View {
 
     /// Text tabs for the free build; icons once an edition adds more tabs.
     private var tabPicker: some View {
-        Picker("", selection: $tab) {
+        Picker("Tab", selection: $tab) {
             if extraTabs.isEmpty {
                 ForEach(Self.builtIn, id: \.self) { Text($0).tag($0) }
             } else {
                 ForEach(Array(zip(Self.builtIn, Self.builtInSymbols)), id: \.0) { name, symbol in
-                    Image(systemName: symbol).help(name).tag(name)
+                    Image(systemName: symbol).help(name).accessibilityLabel(name).tag(name)
                 }
-                ForEach(extraTabs) { t in Image(systemName: t.symbol).help(t.id).tag(t.id) }
+                ForEach(extraTabs) { t in Image(systemName: t.symbol).help(t.id).accessibilityLabel(t.id).tag(t.id) }
             }
         }
         .pickerStyle(.segmented)
@@ -129,7 +129,7 @@ struct PanelView: View {
                 Text("via \(model.status.backend.rawValue)").font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
-            Toggle("", isOn: Binding(get: { model.status.turboOn }, set: { model.setTurbo($0) }))
+            Toggle("Turbo Boost", isOn: Binding(get: { model.status.turboOn }, set: { model.setTurbo($0) }))
                 .toggleStyle(.switch)
                 .controlSize(.large)
                 .labelsHidden()
