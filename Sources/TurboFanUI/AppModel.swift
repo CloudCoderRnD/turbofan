@@ -97,6 +97,13 @@ final class AppModel: ObservableObject {
         defaults.set(apps, forKey: "apps")
     }
 
+    /// Forget the active profile and save that, so it isn't highlighted again after a restart.
+    private func clearActiveProfile() {
+        guard activeProfile != nil else { return }
+        activeProfile = nil
+        saveProfiles()
+    }
+
     private func saveProfiles() {
         let encoder = JSONEncoder()
         defaults.set(try? encoder.encode(profiles), forKey: "profiles")
@@ -130,7 +137,7 @@ final class AppModel: ObservableObject {
     }
 
     func setFan(_ index: Int, _ mode: FanMode) {
-        activeProfile = nil // hand-tuned fans no longer match a profile
+        clearActiveProfile() // hand-tuned fans no longer match a profile
         fanCall { _ = try FanClient.set(fan: index, mode: mode); return try FanClient.snapshot() }
     }
 
@@ -214,7 +221,7 @@ final class AppModel: ObservableObject {
     func setTurbo(_ on: Bool) {
         if autoMode { autoMode = false }
         if rules.enabled { rules.enabled = false }
-        activeProfile = nil
+        clearActiveProfile()
         apply(on)
     }
 
