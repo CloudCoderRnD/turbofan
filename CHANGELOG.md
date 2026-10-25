@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 — unreleased
+## 1.1.0 — 2026-10-25
 
 - **TurboFan Pro is now open source** in this repository (GPL-3.0): battery charge limit, Mac health
   report with 90-day history and CSV export, licence keys and trial, Sparkle auto-updates,
