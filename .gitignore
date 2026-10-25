@@ -3,3 +3,5 @@ build/
 vendor/
 .DS_Store
 dist/
+*.key
+.dev.vars

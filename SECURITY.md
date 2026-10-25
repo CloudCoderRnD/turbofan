@@ -38,6 +38,11 @@ and exposes one sysctl. It is ad-hoc signed and cannot load unless you relax kex
 Recovery (`csrutil enable --without kext`). That lowers your Mac's security; TurboFan works without
 it using Low Power Mode.
 
+**Pro battery helper** (Pro edition only) — `/Library/PrivilegedHelperTools/com.cloudcoder.turbofanpro.helper`,
+runs as root. Writes only the SMC key `BCLM` (charge limit, 50–100), re-applies it every minute, and
+sets it back to 100 when it stops. Socket `/var/run/turbofanpro.sock`, same `getpeereid` check as the
+fan helper.
+
 ## Network use
 
 TurboFan makes two kinds of request, both for in-app messages:
@@ -49,6 +54,11 @@ TurboFan makes two kinds of request, both for in-app messages:
   message card and the macOS notification.
 
 Turn both off in the About window ("Show news and update messages from CloudCoder").
+
+The Pro edition also checks `https://turbo.cloud-coder.com/pro/appcast.xml` once a day for updates
+(Sparkle). Updates must carry CloudCoder's update signature before they install. Licence keys are
+checked on the Mac; nothing is sent to a licence server. The Pro health history stays on the Mac in
+`~/Library/Application Support/TurboFan Pro/history.sqlite`.
 
 TurboFan has no telemetry or analytics, and your readings and settings never leave your Mac.
 

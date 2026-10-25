@@ -140,6 +140,9 @@ Example: `turbofan fan 1 sensor TCXC 50 85` runs fan 1 at minimum speed at 50 °
 | Core | `Sources/TurboCore` | SMC reader/writer, sensors, fan types, turbo control, power and thermal readings. |
 | Helper | `Sources/turbofand` | Root LaunchDaemon. Owns fan writes (`F<n>Md`, `F<n>Tg`) and runs `powermetrics` on demand. Local socket, only root and the installing user may connect. |
 | CLI | `Sources/turbofan` | `turbofan` command. |
+| Pro | `Sources/TurboFanPro`, `Sources/TurboFanProApp` | Pro edition: Battery and Health tabs, 90-day history (SQLite), licence and trial, Sparkle auto-updates, self-installing helpers. Plugs into `TurboFanUI` through its `EditionPlugin` hook. |
+| Pro helper | `Sources/turbofanpro-helper` | Root LaunchDaemon for the battery charge limit (SMC `BCLM`); limit back to 100 % when it stops. |
+| Licences | `Sources/ProShared`, `Sources/turbofan-license` | Ed25519-signed licence keys, checked offline; `turbofan-license` issues them. |
 | Kext | `kext/TurboFanMSR.c` | Sets bit 38 of MSR `0x1A0` on all cores. Load = turbo off, unload = turbo on. `sysctl debug.turbofan_turbo` reads or sets it. |
 
 ### Fan safety
@@ -154,6 +157,27 @@ Example: `turbofan fan 1 sensor TCXC 50 85` runs fan 1 at minimum speed at 50 °
 
 Do not run another fan control app at the same time; they write the same SMC keys.
 
+## Building TurboFan Pro
+
+```bash
+./scripts/build-pro.sh        # build/TurboFan Pro.app (Sparkle and all helpers bundled inside)
+./scripts/release-pro.sh      # zip, update signature and appcast (needs the update-signing key)
+```
+
+Open `TurboFan Pro.app` and click **Install helpers**; it installs the fan, turbo and battery helpers
+with one password prompt.
+
+To use your own keys in a self-built Pro:
+
+```bash
+swift run turbofan-license keygen ~/my-licence.key        # prints a public key
+# put that public key in Sources/TurboFanPro/LicenseManager.swift (publicKey), rebuild, then:
+swift run turbofan-license issue ~/my-licence.key --name "Me" --email me@example.com
+```
+
+For your own update feed, generate a Sparkle key pair (`.build/artifacts/sparkle/Sparkle/bin/generate_keys`)
+and set `SPARKLE_PUBLIC_KEY` and `FEED_URL` when running `build-pro.sh`.
+
 ## Uninstall
 
 ```bash
@@ -164,14 +188,22 @@ Fans return to macOS control and turbo goes back on. Low Power Mode is left as i
 
 ## Editions
 
+Everything here is open source under GPL-3.0, including the Pro features. Build it yourself for free,
+or buy the official TurboFan Pro build from CloudCoder to support the project.
+
 | | Free | Pro |
 |---|---|---|
-| Turbo Boost control, fan control, profiles, readings | ✓ | ✓ |
-| Source code | Open source (GPL-3.0), this repository | Commercial |
-| Extra features for power users and priority support | | ✓ |
+| Turbo Boost control, fan control, profiles, sensors, readings | ✓ | ✓ |
+| Battery charge limit (50–100 %) | | ✓ |
+| Mac health report with advice, 90-day history, CSV export | | ✓ |
+| Automatic updates (signed by CloudCoder) | | ✓ official build |
+| Drag-and-drop install, helpers install themselves | | ✓ |
+| Priority email support | | ✓ official build |
+| Source code | GPL-3.0, this repository | GPL-3.0, this repository |
 
-TurboFan Free is complete and stays free. TurboFan Pro is available from the
-[CloudCoder Store](https://store.cloud-coder.com/turbofan).
+The official Pro build is sold at the [CloudCoder Store](https://store.cloud-coder.com/turbofan) with a
+14-day free trial. Licence keys and updates are signed with CloudCoder's private keys, which are not in
+this repository; a Pro build you make yourself works, but uses your own keys (see below).
 
 ## Contributing
 

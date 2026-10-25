@@ -16,8 +16,12 @@ jobs:
     runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
-      - name: Build app, CLI, helper and kext
+      - name: Unit tests
+        run: swift test
+      - name: Build Free (app, CLI, helper, kext) and package
         run: ./scripts/package.sh
+      - name: Build Pro
+        run: ./scripts/build-pro.sh
       - uses: actions/upload-artifact@v4
         with:
           name: TurboFan

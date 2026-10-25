@@ -1,8 +1,16 @@
 # Changelog
 
-## 1.0.2 — unreleased
+## 1.1.0 — unreleased
 
+- **TurboFan Pro is now open source** in this repository (GPL-3.0): battery charge limit, Mac health
+  report with 90-day history and CSV export, licence keys and trial, Sparkle auto-updates,
+  self-installing helpers. CloudCoder sells the official signed build.
 - Messages now come from turbo.cloud-coder.com; "Get Pro" opens the CloudCoder Store.
+- Throttle warning says "heat or power" (macOS also limits the CPU on a too-small charger).
+- `--shots <dir>` saves real screenshots of every tab.
+- From contributors (thanks, Mossaddique Ahsan): helper no longer dies on SIGPIPE; CI token is
+  read-only except for releases; docs synced; fan safety test exit code, one-fan Macs and Ctrl-C
+  cleanup; message links and images must be https; VoiceOver labels; first unit tests.
 
 ## 1.0.1 — 2026-10-22
 

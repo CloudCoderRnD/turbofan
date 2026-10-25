@@ -14,16 +14,17 @@ tiny kext.
 ## Building
 
 ```bash
-swift build                 # debug build of app, CLI and helper
-swift test                  # unit tests (fan curves, presets, powermetrics parser)
-./scripts/build-app.sh      # release build: build/TurboFan.app, build/turbofan, build/turbofand, kext
-./scripts/install.sh        # install on this Mac (asks for your password)
+swift build                 # debug build of everything (Free, Pro, CLI, helpers)
+swift test                  # unit tests (fan curves, presets, powermetrics parser); needs Xcode
+./scripts/build-app.sh      # Free release build: build/TurboFan.app, CLI, helper, kext
+./scripts/build-pro.sh      # Pro release build: build/TurboFan Pro.app
+./scripts/install.sh        # install Free on this Mac (asks for your password)
 ```
 
-Command Line Tools are enough; Xcode is not required.
+Command Line Tools are enough to build; `swift test` needs Xcode (CI runs it).
 
-Check UI changes without screen recording: `build/TurboFan.app/Contents/MacOS/TurboFanApp --snapshot out.png --tab Fans`
-(AppKit controls render as placeholders in snapshots).
+Screenshots of every tab with real controls and live data, no screen-recording permission needed:
+`build/TurboFan.app/Contents/MacOS/TurboFanApp --shots out/` (Pro: `build/TurboFan\ Pro.app/Contents/MacOS/TurboFanProApp --shots out/`).
 
 ## Pull requests
 
@@ -32,9 +33,8 @@ Check UI changes without screen recording: `build/TurboFan.app/Contents/MacOS/Tu
   [README.md](README.md#fan-safety) and the limits in [SECURITY.md](SECURITY.md). Run
   `sudo ./scripts/test-fan-safety.sh` if you change the helper.
 - New source files start with the SPDX header used in the existing files.
-- By contributing you agree that your contribution is licensed under GPL-3.0-or-later. Because
-  CloudCoder also offers a commercial Pro edition, we may ask you to sign a Contributor License
-  Agreement before we merge larger changes.
+- By contributing you agree that your contribution is licensed under GPL-3.0-or-later, like the rest
+  of TurboFan (Free and Pro).
 
 ## Code of conduct
 
