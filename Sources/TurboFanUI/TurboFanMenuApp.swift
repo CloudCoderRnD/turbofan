@@ -8,6 +8,7 @@ import UserNotifications
 
 public struct TurboFanMenuApp: App {
     @StateObject private var model = AppModel()
+    @AppStorage("menuBarShowsFans") private var menuBarShowsFans = false
 
     public init() {
         UNUserNotificationCenter.current().delegate = NotificationOpener.shared
@@ -50,6 +51,11 @@ public struct TurboFanMenuApp: App {
             HStack(spacing: 3) {
                 Image(systemName: model.thermal.throttled ? "thermometer.sun.fill" : model.status.turboOn ? "bolt.fill" : "bolt.slash.fill")
                 if let t = model.temperature { Text("\(Int(t.rounded()))°") }
+                // Fastest fan, e.g. "3.4k" rpm, when turned on in the Fans tab.
+                if menuBarShowsFans, let rpm = model.fans.max() {
+                    Image(systemName: "fanblades.fill")
+                    Text(String(format: "%.1fk", rpm / 1000))
+                }
             }
         }
         .menuBarExtraStyle(.window)
