@@ -10,6 +10,7 @@ public struct TurboFanMenuApp: App {
     @StateObject private var model = AppModel()
 
     public init() {
+        BuildInfo.current.logLaunch()
         UNUserNotificationCenter.current().delegate = NotificationOpener.shared
         MessageCenter.shared.start()
         // `TurboFan --snapshot out.png` renders the panel to a PNG and quits (for checking the UI).
@@ -74,6 +75,7 @@ struct PanelView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            TestBuildStrip()
             if let message = messages.banner {
                 MessageCard(message: message) { messages.dismiss(message) }
             }

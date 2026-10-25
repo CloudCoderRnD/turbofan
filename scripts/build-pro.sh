@@ -10,7 +10,8 @@
 set -euo pipefail
 cd "${0:A:h}/.."
 VERSION=$(cat VERSION)
-BUILD=$(date +%Y%m%d%H%M)
+source scripts/build-info.sh
+BUILD=$TF_BUILD
 # Public half of the CloudCoder update-signing key (the private half never leaves CloudCoder).
 SPARKLE_PUBLIC=${SPARKLE_PUBLIC_KEY:-$(cat assets/sparkle-public-key.txt)}
 FEED=${FEED_URL:-https://turbo.cloud-coder.com/pro/appcast.xml}
@@ -46,6 +47,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 	<key>CFBundlePackageType</key><string>APPL</string>
 	<key>CFBundleShortVersionString</key><string>$VERSION</string>
 	<key>CFBundleVersion</key><string>$BUILD</string>
+$TF_PLIST_KEYS
 	<key>LSMinimumSystemVersion</key><string>14.0</string>
 	<key>CFBundleIconFile</key><string>AppIcon</string>
 	<key>NSHumanReadableCopyright</key><string>© 2026 CloudCoder Limited. GPL-3.0-or-later.</string>

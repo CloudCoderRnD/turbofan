@@ -14,6 +14,9 @@ jobs:
   build:
     # Intel runner: TurboFan and its kext are x86_64 only.
     runs-on: macos-15-intel
+    env:
+      # Pull request builds are test (alpha) builds and show their PR number in the app.
+      TF_CHANNEL: ${{ github.event_name == 'pull_request' && 'alpha' || 'release' }}
     steps:
       - uses: actions/checkout@v4
       - name: Unit tests
