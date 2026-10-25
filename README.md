@@ -115,6 +115,7 @@ To undo: run `./scripts/uninstall.sh`, then `csrutil enable` in Recovery.
 
 ```text
 turbofan status                     turbo state, backend, temperature, fans
+turbofan version                    TurboFan version
 turbofan on | off                   switch Turbo Boost
 turbofan watch                      temperature, fans and load every second
 turbofan sensors                    all temperature sensors

@@ -6,6 +6,13 @@ set -euo pipefail
 cd "${0:A:h}/.."
 VERSION=$(cat VERSION)
 
+# The CLI's version constant must match the VERSION file.
+CODE_VERSION=$(sed -n 's/.*static let string = "\(.*\)".*/\1/p' Sources/TurboCore/Version.swift)
+if [[ "$CODE_VERSION" != "$(cat VERSION)" ]]; then
+  echo "error: VERSION is $(cat VERSION) but Sources/TurboCore/Version.swift says $CODE_VERSION" >&2
+  exit 1
+fi
+
 swift build -c release
 BIN=$(swift build -c release --show-bin-path)
 
