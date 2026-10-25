@@ -16,7 +16,7 @@ SPARKLE_KEY=${SPARKLE_KEY_FILE:-$HOME/Documents/ccode/turbofan-pro/sparkle-priva
 APP="build/TurboFan Pro.app"
 ZIP="dist/TurboFanPro-$VERSION.zip"
 
-TF_CHANNEL=release scripts/build-pro.sh
+TF_CHANNEL=${TF_CHANNEL:-release} scripts/build-pro.sh
 mkdir -p dist
 rm -f "$ZIP"
 

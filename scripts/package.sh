@@ -7,7 +7,7 @@ cd "${0:A:h}/.."
 VERSION=$(cat VERSION)
 NAME=TurboFan-$VERSION
 
-TF_CHANNEL=release scripts/build-app.sh
+TF_CHANNEL=${TF_CHANNEL:-release} scripts/build-app.sh
 rm -rf "dist/$NAME" "dist/$NAME.zip"
 mkdir -p "dist/$NAME/build" "dist/$NAME/scripts"
 cp -R build/TurboFan.app build/turbofan build/turbofand build/TurboFanMSR.kext "dist/$NAME/build/"
