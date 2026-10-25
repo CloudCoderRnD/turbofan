@@ -26,6 +26,19 @@ Command Line Tools are enough to build; `swift test` needs Xcode (CI runs it).
 Screenshots of every tab with real controls and live data, no screen-recording permission needed:
 `build/TurboFan.app/Contents/MacOS/TurboFanApp --shots out/` (Pro: `build/TurboFan\ Pro.app/Contents/MacOS/TurboFanProApp --shots out/`).
 
+## Test builds and release builds
+
+`build-app.sh` and `build-pro.sh` stamp each build with its channel, version, PR, branch, commit,
+time and build number (`scripts/build-info.sh`):
+
+- **Alpha (test) builds**, the default for branches and pull requests, show an orange strip with these
+  details at the top of the panel and in About, so testers always know what they are running.
+- **Release builds** (`package.sh`, `release-pro.sh`, or a clean `main`) show no strip.
+
+Every build writes the details to `~/Library/Logs/TurboFan/build.log` and the unified log
+(subsystem `com.cloudcoder.turbofan`) when it starts. Override any value, e.g.
+`TF_PR=12 TF_CHANNEL=alpha scripts/build-pro.sh`.
+
 ## Pull requests
 
 - Keep changes focused, and match the surrounding style.

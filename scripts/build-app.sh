@@ -5,6 +5,7 @@
 set -euo pipefail
 cd "${0:A:h}/.."
 VERSION=$(cat VERSION)
+source scripts/build-info.sh
 
 swift build -c release
 BIN=$(swift build -c release --show-bin-path)
@@ -28,7 +29,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 	<key>CFBundleDisplayName</key><string>TurboFan</string>
 	<key>CFBundlePackageType</key><string>APPL</string>
 	<key>CFBundleShortVersionString</key><string>$VERSION</string>
-	<key>CFBundleVersion</key><string>1</string>
+	<key>CFBundleVersion</key><string>$TF_BUILD</string>
+$TF_PLIST_KEYS
 	<key>LSMinimumSystemVersion</key><string>14.0</string>
 	<key>CFBundleIconFile</key><string>AppIcon</string>
 	<key>NSHumanReadableCopyright</key><string>© 2026 CloudCoder Limited. GPL-3.0-or-later.</string>

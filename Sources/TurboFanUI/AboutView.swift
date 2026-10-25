@@ -69,6 +69,8 @@ struct AboutView: View {
                 .font(.caption)
                 .onChange(of: messagesEnabled) { Task { await MessageCenter.shared.refresh() } }
 
+            TestBuildStrip()
+
             HStack {
                 Link("Source code", destination: Brand.source)
                 Spacer()
